@@ -1,0 +1,14 @@
+{
+  "senior_vice_president": "SVP1",
+  "junior_vice_president": "JVP2",
+  "secretary": "Sce3",
+  "joint_secretary": "JS4",
+  "assistant_secretary": "AS5",
+  "treasurer": "TR6",
+  "sport_secretary": "SS7",
+  "executive_members": [
+    "Executive Member -8",
+    "Executive Member -11",
+    "Executive Member -12"
+  ]
+}
