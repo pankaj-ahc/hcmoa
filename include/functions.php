@@ -101,18 +101,19 @@ function PostUI($post, $users)
     $btn = $isMember ? "checkbox" : "radio";
     $name = $isMember ? $key . "[]" : "$key";
 
-    $html = "<h2 class='my-5 text-center text-decoration-underline'>$post</h2>";
+    $html = "<h2 class='my-2 text-center text-decoration-underline'>$post</h2><div class='candidate_container'>";
     foreach ($users as $i => $user) {
         $html .= "
             <div class='col-6 mt-3 p-0'>
                 <div class='mx-2 border rounded-3 '>
                     <input type='$btn' class='btn-check' id='input_{$key}_{$i}' autocomplete='off'
                            name='$name'
-                           value='$user'>
-                    <label class='btn w-100 text-start py-4 ' for='input_{$key}_{$i}'>$user</label>
+                           value='$user[0]'>
+                    <label class='btn w-100 text-start py-4 ' for='input_{$key}_{$i}'>$user[0]</label>
                 </div>
             </div>";
     }
+    $html .= "</div>";
     return $html;
 }
 

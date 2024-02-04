@@ -8,7 +8,7 @@ include "./include/header.php";
         $candidates = getCandidates();
         $posts = getPosts();
         foreach ($posts as $i => $post) {
-            echo "<div class='tab row mx-5 step-$i'>";
+            echo "<div class='tab row mx-3 step-$i'>";
             echo PostUI("$post", $candidates->{$post});
             echo "</div>";
         }
@@ -39,7 +39,7 @@ include "./include/header.php";
             </table>
         </div>
         <div class="position-fixed bottom-0 end-0 p-3">
-            <div class="row  px-5">
+            <div class="row  px-5 navBtn">
                 <div class="col-12 d-flex justify-content-end ">
                     <button class="btn btn-primary btn-lg ms-3" type="button" id="prevBtn"
                             onclick="nextPrev(-1)">
@@ -109,6 +109,20 @@ include "./include/header.php";
             // nextPrev(1)
         }, 1000)
     })
+
+
+    function calculateSize(){
+        let rect1 =document.getElementsByClassName('candidate_container')[0].getBoundingClientRect();
+        let rectEnd =document.getElementsByClassName('navBtn')[0].getBoundingClientRect();
+        return {
+            top:rect1.top,
+            right:rect1.right,
+            bottom:rectEnd.top,
+            left:rect1.left,
+            width:rect1.width,
+            height:rectEnd.top - rect1.top
+        }
+    }
 </script>
 <?php
 include "./include/footer.php";

@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>HCMOA Election 2024</title>
-    <link href="bootstrap.min.css" rel="stylesheet">
-    <script src="bootstrap.bundle.min.js"></script>
-    <script src="jquery.min.js"></script>
+    <link href="./include/bootstrap.min.css" rel="stylesheet">
+    <script src="./include/bootstrap.bundle.min.js"></script>
+    <script src="./include/jquery.min.js"></script>
     <style>
         .btn-check  ~ label {
             box-shadow: 3px 6px 8px 0 #c6c6c6;
@@ -40,7 +40,7 @@
     </style>
 </head>
 <body>
-<nav class="navbar" style="background-color: #e3f2fd;">
+<nav class="navbar" style="max-height:50px;background-color: #e3f2fd;">
     <div class="container-fluid">
         <span class="navbar-brand mb-0 mx-auto h1">HCMOA Election 2024</span>
     </div>
