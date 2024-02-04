@@ -101,7 +101,8 @@ function PostUI($post, $users)
     $btn = $isMember ? "checkbox" : "radio";
     $name = $isMember ? $key . "[]" : "$key";
 
-    $html = "<h2 class='my-2 text-center text-decoration-underline'>$post</h2><div class='candidate_container'>";
+    $html = "<h2 class='my-2 text-center text-decoration-underline'>$post</h2>";
+//    $html .="<div class='candidate_container'>";
     foreach ($users as $i => $user) {
         $html .= "
             <div class='col-6 mt-3 p-0'>
@@ -113,7 +114,7 @@ function PostUI($post, $users)
                 </div>
             </div>";
     }
-    $html .= "</div>";
+//    $html .= "</div>";
     return $html;
 }
 
