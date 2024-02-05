@@ -5,11 +5,12 @@ include "./include/header.php";
 <main class="container-fluid mt-3">
     <form id="regForm" action="saveVote.php" method="post">
         <?php
-        $candidates = getCandidates();
+//        $candidates = getCandidates();
         $posts = getPosts();
         foreach ($posts as $i => $post) {
             echo "<div class='tab row mx-3 step-$i'>";
-            echo PostUI("$post", $candidates->{$post});
+//            echo PostUI("$post", $candidates->{$post});
+            echo PostUI($post);
             echo "</div>";
         }
         ?>
@@ -55,8 +56,10 @@ include "./include/header.php";
     </form>
 </main>
 <script>
-    $("div.tab").hide();
     let currentTab = 0; // Current tab is set to be the first tab (0)
+    let candidateContainerRect = null;
+
+    $("div.tab").hide();
     showTab(currentTab); // Display the current tab
 
     function showTab(n) {
@@ -123,6 +126,62 @@ include "./include/header.php";
             height:rectEnd.top - rect1.top
         }
     }
+
+    let candidates =null;
+    function post2key(post){
+        return post.toLowerCase().replaceAll(" ","_");
+    }
+    function getCandidates(){
+        $.ajax({
+            type: "GET",
+            url: "./data/candidates.json",
+            success: function(data){
+                console.log("data saved",data)
+                candidates = data;
+                for(let c in candidates){
+                    let dt = candidates[c];
+                    let key = post2key(c);
+                    generateUI(key,dt);
+                }
+                // alert("Candidate data saved successfully.")
+            },
+            error:function(data){
+                console.error("Unable to fetch candidates.json file",data)
+                alert("Unable to fetch candidates.json file");
+            }
+        });
+    }
+    function generateUI(key,data){
+        let html = '';
+        let isMember = false;
+       if (key === "executive_members") {
+           isMember = true;
+       }
+        let btn = isMember ? "checkbox" : "radio";
+        let name = isMember ? key + "[]" : key;
+
+            data.forEach((user,i)=> {
+            html += `
+            <div class='mt-3 p-0 '>
+                <div class='mx-2 border rounded-3 candidate-element'>
+
+                    <input type='${btn}' class='btn-check' id='input_${key}_${i}' autocomplete='off'
+                           name='${name}'
+                           value='${user[0]}'>
+                    <label class='btn w-100 text-start py-4' for='input_${key}_${i}'></label>
+                    <div class="userName position-absolute bottom-0">${user[0]}</div>
+                </div>
+            </div>`
+        })
+        $(`#container_${key}`).html(html);
+    }
+
+    $(function() {
+        getCandidates();
+        candidateContainerRect = calculateSize();
+        $(".candidate_container").height(candidateContainerRect.height)
+        $(".candidate_container").width(candidateContainerRect.width)
+    });
 </script>
 <?php
 include "./include/footer.php";

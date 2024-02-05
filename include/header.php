@@ -37,12 +37,37 @@
             background: red;
             color: white;
         }
+        .hide{
+            color: white!important;
+            background: white!important;
+        }
+        .candidate-element{
+            width: 150px;
+            height: 150px;
+            background-image: url(./user.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+            overflow: hidden;
+        }
+        .candidate-element label{
+            height: 100%;
+            position: relative;
+            z-index: 10;
+        }
+        .candidate-element .userName{
+            background: gray;
+            width: 100%;
+            text-align: center;
+            color: white;
+            border-radius: .5rem .5rem 0 0 ;
+        }
     </style>
 </head>
 <body>
-<nav class="navbar" style="max-height:50px;background-color: #e3f2fd;">
+<nav class="navbar hide" style="max-height:50px;background-color: #e3f2fd;">
     <div class="container-fluid">
-        <span class="navbar-brand mb-0 mx-auto h1">HCMOA Election 2024</span>
+        <span class="navbar-brand mb-0 mx-auto h1 hide">HCMOA Election 2024</span>
     </div>
 </nav>
 <?php

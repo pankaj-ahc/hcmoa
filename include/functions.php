@@ -90,31 +90,11 @@ function getKey($post)
     return str_ireplace(" ", "_", strtolower($post));
 }
 
-function PostUI($post, $users)
+function PostUI($post)
 {
-//    pre("Post-User",$post,$users);
-    $isMember = false;
-    if ($post === "Executive Members") {
-        $isMember = true;
-    }
     $key = getKey($post);
-    $btn = $isMember ? "checkbox" : "radio";
-    $name = $isMember ? $key . "[]" : "$key";
-
-    $html = "<h2 class='my-2 text-center text-decoration-underline'>$post</h2>";
-//    $html .="<div class='candidate_container'>";
-    foreach ($users as $i => $user) {
-        $html .= "
-            <div class='col-6 mt-3 p-0'>
-                <div class='mx-2 border rounded-3 '>
-                    <input type='$btn' class='btn-check' id='input_{$key}_{$i}' autocomplete='off'
-                           name='$name'
-                           value='$user[0]'>
-                    <label class='btn w-100 text-start py-4 ' for='input_{$key}_{$i}'>$user[0]</label>
-                </div>
-            </div>";
-    }
-//    $html .= "</div>";
+    $html = "<h2 class='my-2 text-center text-decoration-underline hide'>$post</h2>";
+    $html .="<div class='candidate_container d-flex flex-wrap justify-content-center align-items-center' id='container_{$key}'></div>";
     return $html;
 }
 
