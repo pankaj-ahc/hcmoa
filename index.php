@@ -8,7 +8,7 @@ include "./include/header.php";
 //        $candidates = getCandidates();
         $posts = getPosts();
         foreach ($posts as $i => $post) {
-            echo "<div class='tab row mx-3 step-$i'>";
+            echo "<div class='tab row mx-0 step-$i'>";
 //            echo PostUI("$post", $candidates->{$post});
             echo PostUI($post);
             echo "</div>";
@@ -40,7 +40,7 @@ include "./include/header.php";
             </table>
         </div>
         <div class="position-fixed bottom-0 end-0 p-3">
-            <div class="row  px-5 navBtn">
+            <div class="row px-5 navBtn">
                 <div class="col-12 d-flex justify-content-end ">
                     <button class="btn btn-primary btn-lg ms-3" type="button" id="prevBtn"
                             onclick="nextPrev(-1)">
@@ -57,8 +57,7 @@ include "./include/header.php";
 </main>
 <script>
     let currentTab = 0; // Current tab is set to be the first tab (0)
-    let candidateContainerRect = null;
-
+    const maxMember =10;
     $("div.tab").hide();
     showTab(currentTab); // Display the current tab
 
@@ -102,6 +101,7 @@ include "./include/header.php";
             return false;
         }
         showTab(currentTab);
+        setCandidateElementHW();
     }
 
     let nextTimer = null;
@@ -159,29 +159,72 @@ include "./include/header.php";
        }
         let btn = isMember ? "checkbox" : "radio";
         let name = isMember ? key + "[]" : key;
-
+        let click = isMember ?"onclick='checkSelectedMemberCount(this)'":""
             data.forEach((user,i)=> {
             html += `
-            <div class='mt-3 p-0 '>
+            <div class='p-0 '>
                 <div class='mx-2 border rounded-3 candidate-element'>
 
                     <input type='${btn}' class='btn-check' id='input_${key}_${i}' autocomplete='off'
-                           name='${name}'
+                           name='${name}' ${click} onmousedown=""
                            value='${user[0]}'>
                     <label class='btn w-100 text-start py-4' for='input_${key}_${i}'></label>
-                    <div class="userName position-absolute bottom-0">${user[0]}</div>
+                    <div class="userName position-absolute bottom-0" onclick="$(this).prev().prev().click()">${user[0]}</div>
                 </div>
             </div>`
         })
         $(`#container_${key}`).html(html);
     }
+    function checkSelectedMemberCount(ele){
+        const n = $('#regForm input[name="executive_members[]"]:checked').length;
+        console.log("Exe member selected",n,event,ele)
+        if(n >maxMember){
+            ele.checked=false
+        }
+    }
 
     $(function() {
         getCandidates();
-        candidateContainerRect = calculateSize();
-        $(".candidate_container").height(candidateContainerRect.height)
-        $(".candidate_container").width(candidateContainerRect.width)
+        let candidateContainerRect = calculateSize();
+        console.log("init window Size",candidateContainerRect)
+        $(".candidate_container").height(candidateContainerRect.height)//.width(candidateContainerRect.width)
+        setCandidateElementHW();
     });
+    async function setCandidateElementHW(){
+        let tabs = $("div.tab");
+        if (currentTab === tabs.length -1) {
+        // if (n === (tabs.length - 1)) {
+            return;
+        }
+        $(".navBtn").addClass("d-none")
+        let x=0;
+        $(".candidate-element").width(x).height(x);
+        const screenHeight = document.body.scrollHeight;
+
+        while(document.body.scrollHeight <= screenHeight){
+            x += 5;
+            $(".candidate-element").width(x).height(x);
+            await sleep(1);
+            // console.log("resize",x,screenHeight,document.body.scrollHeight)
+        }
+        while(document.body.scrollHeight > screenHeight){
+            x -= 5;
+            $(".candidate-element").width(x).height(x);
+            await sleep(1);
+            // console.log("resize",x,screenHeight,document.body.scrollHeight)
+        }
+        $(".navBtn").removeClass("d-none")
+    }
+    window.addEventListener("resize", function() {
+        let candidateContainerRect = calculateSize();
+        console.log("New Resized Size",candidateContainerRect)
+        $(".candidate_container").height(candidateContainerRect.height)//.width(candidateContainerRect.width)
+        setCandidateElementHW()
+    });
+
+    const sleep = function(ms) {
+        return new Promise(resolve => setTimeout(()=>resolve(this),ms));
+    }
 </script>
 <?php
 include "./include/footer.php";

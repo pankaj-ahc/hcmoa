@@ -18,8 +18,24 @@
             color: #FFEE58!important;
             /*background: linear-gradient(35deg, #1b2142 , #00a6ffa8);*/
             background: linear-gradient(35deg, #1b421b , #00ff00a8);
+            background: linear-gradient(359deg, #09f656, transparent);
             box-shadow: 3px 6px 8px 0 #c6c6c6;
+            box-shadow: 0px 0px 18px 3px green;
+            border-color: yellow!important;
+            border-width: 4px;
         }
+        .btn-check:checked ~ .userName {
+            z-index: 999;
+            background: green;
+            color: yellow;
+            /*box-shadow: inset 0 0 16px 2px #00ff53, inset 0 0 17px 4px yellow;*/
+            border-color: #ffff00!important;
+            border-width: 1px 4px 4px;
+            border-style: solid;
+            border-radius: 0%;
+            border-radius: 35px 0;
+        }
+
         .closeBtn{
             position: absolute;
             right: 0;
@@ -38,8 +54,8 @@
             color: white;
         }
         .hide{
-            color: white!important;
-            background: white!important;
+            /*color: white!important;*/
+            /*background: white!important;*/
         }
         .candidate-element{
             width: 150px;
@@ -48,7 +64,7 @@
             background-repeat: no-repeat;
             background-size: cover;
             position: relative;
-            overflow: hidden;
+            /*overflow: hidden;*/
         }
         .candidate-element label{
             height: 100%;
@@ -61,6 +77,8 @@
             text-align: center;
             color: white;
             border-radius: .5rem .5rem 0 0 ;
+            line-height: 0.9;
+            padding: 5% 0;
         }
     </style>
 </head>
