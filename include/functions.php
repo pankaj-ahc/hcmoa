@@ -99,3 +99,6 @@ function PostUI($post)
     return $html;
 }
 
+function createDigitalSignKey(){
+
+}
