@@ -179,8 +179,10 @@ include "./include/header.php";
         const n = $('#regForm input[name="executive_members[]"]:checked').length;
         console.log("Exe member selected",n,event,ele)
         if(n >maxMember){
-            ele.checked=false
+            ele.checked=false;
+            n--;
         }
+        $("#status").text(`Members Selected : ${n}`)
     }
 
     $(function() {
