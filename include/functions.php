@@ -94,7 +94,8 @@ function PostUI($post)
 {
     $key = getKey($post);
     $html = "<h2 class='my-2 text-center text-decoration-underline hide'>$post</h2>";
-    $html .= $key === "executive_members"?"<div id='status' style='position: absolute;text-align: right;right: 30px;'></div>":"";
+    $html .= $key === "executive_members"?"<div id='status' style='position: absolute;text-align: left;left: 30px;background: forestgreen;width: auto;color: yellow;
+}'></div>":"";
     $html .="<div class='candidate_container d-flex flex-wrap justify-content-center align-items-center' id='container_{$key}'></div>";
     return $html;
 }
