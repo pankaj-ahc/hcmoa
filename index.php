@@ -39,8 +39,8 @@ include "./include/header.php";
                 </tbody>
             </table>
         </div>
-        <div class="position-fixed bottom-0 end-0 p-3">
-            <div class="row px-5 navBtn">
+        <div class="position-fixed top-0 end-0 p-3 mt-5">
+            <div class="row px-3 navBtn">
                 <div class="col-12 d-flex justify-content-end ">
                     <button class="btn btn-primary btn-lg ms-3" type="button" id="prevBtn"
                             onclick="nextPrev(-1)">
@@ -87,13 +87,13 @@ include "./include/header.php";
                 $key = getKey($post);
                 echo "
                 $('#{$key}_voted').text(
-                    $('#regForm input[name={$key}]:checked~label').text()
+                    $('#regForm input[name={$key}]:checked~div').text()
                 );
                 ";
             }
             ?>
             $('#executive_members_voted').text(
-                $('#regForm input[name="executive_members[]"]:checked~label').map((i, e) => e.innerText).toArray().join(', ')
+                $('#regForm input[name="executive_members[]"]:checked~div').map((i, e) => e.innerText).toArray().join(', ')
             );
         }
         if (currentTab >= tabs.length) {
@@ -117,13 +117,15 @@ include "./include/header.php";
     function calculateSize(){
         let rect1 =document.getElementsByClassName('candidate_container')[0].getBoundingClientRect();
         let rectEnd =document.getElementsByClassName('navBtn')[0].getBoundingClientRect();
+        let rectWindow = document.getElementsByTagName("body")[0].getBoundingClientRect();
+
         return {
             top:rect1.top,
             right:rect1.right,
-            bottom:rectEnd.top,
+            bottom:rectWindow.bottom,
             left:rect1.left,
             width:rect1.width,
-            height:rectEnd.top - rect1.top
+            height:rectWindow.height - rect1.top
         }
     }
 
@@ -176,7 +178,7 @@ include "./include/header.php";
         $(`#container_${key}`).html(html);
     }
     function checkSelectedMemberCount(ele){
-        const n = $('#regForm input[name="executive_members[]"]:checked').length;
+        let n = $('#regForm input[name="executive_members[]"]:checked').length;
         console.log("Exe member selected",n,event,ele)
         if(n >maxMember){
             ele.checked=false;
@@ -192,30 +194,46 @@ include "./include/header.php";
         $(".candidate_container").height(candidateContainerRect.height)//.width(candidateContainerRect.width)
         setCandidateElementHW();
     });
+    let resizing = 0;
     async function setCandidateElementHW(){
+        while(resizing !== 0){
+            resizing=3;
+            return;
+        }
+        resizing = 1;
         let tabs = $("div.tab");
         if (currentTab === tabs.length -1) {
         // if (n === (tabs.length - 1)) {
             return;
         }
+        resizing = 2;
+        setTimeout(resizeCandidateEle,1);
+    }
+    const resizeCandidateEle = async function (){
+        enableLoader()
+        await sleep(500);
         $(".navBtn").addClass("d-none")
         let x=0;
         $(".candidate-element").width(x).height(x);
         const screenHeight = document.body.scrollHeight;
-
+        // $(".candidate-element").hide();
         while(document.body.scrollHeight <= screenHeight){
             x += 5;
             $(".candidate-element").width(x).height(x);
-            await sleep(1);
-            // console.log("resize",x,screenHeight,document.body.scrollHeight)
+            // console.log("resize",resizing,x,screenHeight,document.body.scrollHeight)
         }
         while(document.body.scrollHeight > screenHeight){
             x -= 5;
             $(".candidate-element").width(x).height(x);
-            await sleep(1);
-            // console.log("resize",x,screenHeight,document.body.scrollHeight)
+            // console.log("resize",resizing,x,screenHeight,document.body.scrollHeight)
         }
-        $(".navBtn").removeClass("d-none")
+        // $(".candidate-element").show();
+        resizing =0;
+        if(resizing===3){
+            resizeCandidateEle()
+        }
+        $(".navBtn").removeClass("d-none");
+        disableLoader();
     }
     window.addEventListener("resize", function() {
         let candidateContainerRect = calculateSize();
